@@ -20,4 +20,24 @@ tuner_count: 6
 
 Note, I'll eventually make this work with environment variables, Crystal is just not cooperating with me on this at the moment.
 
+Example of a docker compose file
+```
+version: "1"
+services:
+  antennas:
+    image: thejf/antennas:latest
+    container_name: antennas
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Australia/Brisbane #replace with local timezone info
+      - ANTENNAS_URL=192.168.0.1:5004 #replace 192.168.0.1 with IP address of docker server hosting antennas
+      - TVHEADEND_URL=http://username:password@192.168.1.2:9981/ #replace 192.168.1.2 with IP/hostname of tvheadend server
+      - TUNER_COUNT=1 #enter number of tuners
+    volumes:
+      - /path/to/docker/config:/opt/antennas/config #replace /path/to/docker/config with your path to the config.yml file
+    ports:
+      - 5004:5004
+    restart: unless-stopped
+```
 
